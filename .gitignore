@@ -1,0 +1,16 @@
+*.aux
+*.bcf
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.sty
+*.eps
+*.pdf
+*.dvi
+*.zip
+*.csv
+

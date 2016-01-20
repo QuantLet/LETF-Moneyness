@@ -7,7 +7,7 @@ Description:      'Calculate and plot uniform bootstrap confidence bands for the
 Keywords:         'confidence-bands, bandwidth, robust estimation, kernel, implied-volatility, 
                   uniform, option, leverage effekt'
 
-See also:         'LETFConfBands05SPY, LETFConfBands05SSO, LETFConfBands05UPRO, LETFConfBands06SPY, LETFConfBands0 SSO, 
+See also:         'LETFConfBands05SPY, LETFConfBands05SSO, LETFConfBands05UPRO, LETFConfBands06SPY, LETFConfBands06SSO, 
                   LETFConfBands06UPRO, LETFConfBands06SDS, LETFConfBands07UPRO, LETFConfBands07SPY, LETFConfBands07SSO, 
                   LETFConfBands07SDS' 
 
@@ -15,7 +15,7 @@ Author:           Sergey Nasekin, Elisabeth Bommes
 
 Submitted:        2016/01/19
 
-Datafile:         mivttmdata_05_SDS.csv
+Datafile:         mivttmdata_05_SDS.csv, mivttmdata_05_SPY.csv
 
 Input:            'B:     number of bootstrap iterations 
                   alpha: 1-confidence level of the bands 

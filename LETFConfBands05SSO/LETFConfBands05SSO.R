@@ -11,20 +11,20 @@ library("doParallel")
 source("cbands_funcs.r")
 
 ## Parameters
-cl       <- 7     # Number of cores to use
-B        <- 1000
-alpha    <- 0.05
-gridn    <- 100
-beta     <- 2 #change here the beta for the LETF in question
+cl       = 7     # Number of cores to use
+B        = 1000
+alpha    = 0.05
+gridn    = 100
+beta     = 2 #change here the beta for the LETF in question
 
 # Load data and apply moneyness scaling
-monivdataLETF <- read.table('mivttmdata_05_SSO.csv',sep=',')
-monivdataSPY  <- read.table('mivttmdata_05_SPY.csv',sep=',')
-etfvol        <- as.matrix(monivdataSPY[,2])
-x             <- as.matrix(monivdataLETF[,1])
-y             <- as.matrix(monivdataLETF[,2])/abs(beta)
-ttm           <- as.matrix(monivdataLETF[,3])
-ScMonKf       <- (x/exp(-0.5*beta*(beta-1)*(mean(etfvol)^2)*ttm))^(1/beta)
+monivdataLETF = read.table('mivttmdata_05_SSO.csv',sep=',')
+monivdataSPY  = read.table('mivttmdata_05_SPY.csv',sep=',')
+etfvol        = as.matrix(monivdataSPY[,2])
+x             = as.matrix(monivdataLETF[,1])
+y             = as.matrix(monivdataLETF[,2])/abs(beta)
+ttm           = as.matrix(monivdataLETF[,3])
+ScMonKf       = (x/exp(-0.5*beta*(beta-1)*(mean(etfvol)^2)*ttm))^(1/beta)
 x             <- ScMonKf
 
 #Choose bandwidths
@@ -40,8 +40,8 @@ ScMonSPY   = ScMonSPY[order(ScMonSPY)]
 # Scale x to [0, 1]
 xmin = min(x)
 xmax = max(x)
-x = (x - xmin) / (xmax - xmin)
-h = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
+x    = (x - xmin) / (xmax - xmin)
+h    = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
 
 # Initial fit
 yhat.h = lnrob(x, y, h = h, maxiter = 100, x0 = x)
@@ -85,7 +85,7 @@ registerDoParallel(cl)
 d    = vector(length = B, mode = "numeric")
 
 d = foreach(i = 1:B, .packages = pack)%dopar%{
-  estar = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
+  estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
   ystar   = yhat.grid.g$fv + estar$fv
   fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
   d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))

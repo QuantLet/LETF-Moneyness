@@ -12,7 +12,7 @@ Description:      'Calculate and plot uniform bootstrap confidence bands for the
                    S&P500 LETF option implied volatility at the time-to-maturity 0.5 years'
 
 Keywords:         confidence-bands, bandwidth, robust estimation, kernel, implied-volatility, 
-                  uniform, option, leverage effekt
+uniform, option, leverage effekt
 
 See also:         LETFConfBands05SPY, LETFConfBands05SSO, LETFConfBands05UPRO, LETFConfBands06SPY, 
                   LETFConfBands06SSO, LETFConfBands06UPRO, LETFConfBands06SDS, LETFConfBands07UPRO, 

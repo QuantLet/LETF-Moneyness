@@ -11,15 +11,15 @@ library("doParallel")
 source("cbands_funcs.r")
 
 ## Parameters
-cl       <- 7     # Number of cores to use
-B        <- 1000
-alpha    <- 0.05
-gridn    <- 100
+cl       = 7     # Number of cores to use
+B        = 1000
+alpha    = 0.05
+gridn    = 100
 
 # Load data and apply moneyness scaling
-monivdataSPY  <- read.table('mivttmdata_06_SPY.csv',sep=',')
-x             <- as.matrix(monivdataSPY[,1])
-y             <- as.matrix(monivdataSPY[,2])
+monivdataSPY  = read.table('mivttmdata_06_SPY.csv',sep=',')
+x             = as.matrix(monivdataSPY[,1])
+y             = as.matrix(monivdataSPY[,2])
 
 #Choose bandwidths
 n  = nrow(x)
@@ -34,8 +34,8 @@ ScMonSPY   = ScMonSPY[order(ScMonSPY)]
 # Scale x to [0, 1]
 xmin = min(x)
 xmax = max(x)
-x = (x - xmin) / (xmax - xmin)
-h = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
+x    = (x - xmin) / (xmax - xmin)
+h    = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
 
 # Initial fit
 yhat.h = lnrob(x, y, h = h, maxiter = 100, x0 = x)
@@ -79,7 +79,7 @@ registerDoParallel(cl)
 d    = vector(length = B, mode = "numeric")
 
 d = foreach(i = 1:B, .packages = pack)%dopar%{
-  estar = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
+  estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
   ystar   = yhat.grid.g$fv + estar$fv
   fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
   d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))

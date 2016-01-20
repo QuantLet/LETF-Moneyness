@@ -8,7 +8,7 @@ Description:      'Compute and plot the dynamics of stochastic factor loadings o
 Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
                    spline, basis, option, implied-volatility, surface, Newton'
 
-See also:         'LETFFactorFuncs, LETFIVTrueMonsc'
+See also:         LETFFactorFuncs, LETFIVTrueMonsc
 
 Author:           Sergey Nasekin
 

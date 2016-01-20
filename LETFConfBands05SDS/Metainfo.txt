@@ -15,7 +15,7 @@ Author:           Sergey Nasekin, Elisabeth Bommes
 
 Submitted:        2016/01/19
 
-Datafile:         mivttmdata_05_SDS.csv
+Datafile:         mivttmdata_05_SDS.csv, mivttmdata_05_SPY.csv
 
 Input:            'B:     number of bootstrap iterations 
                   alpha: 1-confidence level of the bands 

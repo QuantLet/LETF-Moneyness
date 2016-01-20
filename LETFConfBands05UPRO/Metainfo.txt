@@ -1,4 +1,4 @@
-Name of Quantlet: LETFConfBands05SSO
+Name of Quantlet: LETFConfBands05UPRO
 
 Published in:     Leveraged ETF options implied volatility paradox
 

@@ -1,28 +1,31 @@
-Name of Quantlet: LETFConfBands07UPRO
+Name of Quantlet: LETFStochLoads
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'Calculate and plot uniform bootstrap confidence bands for the ProShares UltraPro S&P500 (UPRO) LETF option implied 
-                  volatility at the time-to-maturity 0.7 years'
+Description:      'Compute and plot the dynamics of stochastic factor loadings of the SPY LETF option implied volatility surface. 
+                   The estimation of the dynamic semiparametric factor model with B-spline basis is performed for this purpose'
 
-Keywords:         'confidence-bands, bandwidth, robust estimation, kernel, implied-volatility, 
-                  uniform, option, leverage effekt'
+Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
+                   spline, basis, option, implied-volatility, surface, Newton'
 
-See also:         'LETFConfBands05SPY, LETFConfBands05SDS, LETFConfBands05SSO, LETFConfBands05UPRO, 
-                   LETFConfBands06SPY, LETFConfBands06SSO, LETFConfBands06UPRO, LETFConfBands06SDS, 
-                   LETFConfBands07SDS, LETFConfBands07SSO,  LETFConfBands07UPRO'
+See also:         'LETFFactorFuncs, LETFIVTrueMonsc'
 
 Author:           Sergey Nasekin
 
 Submitted:        2016/01/19
 
-Datafile:         mivttmdata_07_UPRO.csv, mivttmdata_07_SPY.csv
+Datafile:         SPYDATA.mat
 
 Input: 
-- B: number of bootstrap iterations 
-- alpha: 1-confidence level of the bands 
-- gridn: number of grid points for estimation 
-- beta:  leverage ratio of the LETF
+- Km: B-spline order in moneyness direction 
+- Kt: B-spline order in time-to-maturity direction 
+- dim_mon: number of grid points for estimation in moneyness direction 
+- dim_ttm: number of grid points for estimation in time-to-maturity direction
+- ikmon: parameter for setting the number of B-spline knots in moneyness direction  
+- ikttm: parameter for setting the number of B-spline knots in time-to-maturity direction
+- tol: convergence tolerance for the Newton method 
+- maxiter: maximal number of iterations for the Newton method 
+- L: number of factor functions in the model
   		  
 
-Output:           plot of bootstrap uniform confidence bands around the true curve
+Output:           plot of stochastic factor loadings of the SPY LETF option implied volatility surface

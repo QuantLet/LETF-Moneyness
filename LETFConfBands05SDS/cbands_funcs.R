@@ -65,8 +65,8 @@ lprq3 = function(x, y, h, x0){
         z     = x - xx[i]
         wx    = dnorm(z/h)
         r     = rq(y ~ z, weights = wx, tau = runif(1), ci = FALSE) 
-       fv[i] = r$coef[1.]
-       dv[i] = r$coef[2.]
+        fv[i] = r$coef[1.]
+        dv[i] = r$coef[2.]
     }
     list(xx = xx, fv = fv, dv = dv)
 }

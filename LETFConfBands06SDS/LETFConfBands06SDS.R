@@ -62,16 +62,16 @@ fll = vector(length = gridn, mode = "numeric")
 
 for (k in 1: gridn){
   # Conditional pdf f(e|x)at gridpoints
-  nom   = sum((kernelq((x - yhat.grid.h$xx[k]) / (hg)) *
+    nom   = sum((kernelq((x - yhat.grid.h$xx[k]) / (hg)) *
                  yhat.grid.h$psi1((y - yhat.grid.h$fv[k]), deriv = 1)))
-  denom = sum(kernelq((x - yhat.grid.h$xx[k])/(hg)))
-  fl[k] = nom / denom
+    denom = sum(kernelq((x - yhat.grid.h$xx[k])/(hg)))
+    fl[k] = nom / denom
   
-  # Conditional E(psi^2(e))
-  nom    = sum((kernelq((x - yhat.grid.h$xx[k])/(h)) *
+    # Conditional E(psi^2(e))
+    nom    = sum((kernelq((x - yhat.grid.h$xx[k])/(h)) *
                   yhat.grid.h$psi1((y - yhat.grid.h$fv[k]), deriv = 0)^2))
-  denom  = sum(kernelq((x -  yhat.grid.h$xx[k])/(hg)))
-  fll[k] = nom / denom
+    denom  = sum(kernelq((x -  yhat.grid.h$xx[k])/(hg)))
+    fll[k] = nom / denom
 }
 
 bandt = (fxd$y)^(1/2) * abs(fl / sqrt(fll))
@@ -85,10 +85,10 @@ registerDoParallel(cl)
 d    = vector(length = B, mode = "numeric")
 
 d = foreach(i = 1:B, .packages = pack)%dopar%{
-  estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
-  ystar   = yhat.grid.g$fv + estar$fv
-  fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
-  d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))
+    estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
+    ystar   = yhat.grid.g$fv + estar$fv
+    fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
+    d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))
 }
 
 stopCluster(cl)

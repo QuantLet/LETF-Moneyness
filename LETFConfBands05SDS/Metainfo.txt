@@ -1,3 +1,4 @@
+
 Name of Quantlet: LETFConfBands05SDS
 
 Published in:     Leveraged ETF options implied volatility paradox
@@ -20,8 +21,8 @@ Datafile:         mivttmdata_05_SDS.csv, mivttmdata_05_SPY.csv
 
 Input: 
 - B: number of bootstrap iterations 
-- alpha: 1-confidence level of the bands 
-- gridn: number of grid points for estimation 
+- alpha: '1-confidence level of the bands'
+- gridn: number of grid points for estimation
 - beta:  leverage ratio of the LETF
-  		  
+
 Output: plot of bootstrap uniform confidence bands around the true curve

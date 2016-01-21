@@ -11,7 +11,7 @@ See also:         'LETFConfBands05SPY, LETFConfBands05SDS, LETFConfBands05UPRO, 
                   LETFConfBands06UPRO, LETFConfBands06SDS, LETFConfBands07UPRO, LETFConfBands07SPY, LETFConfBands07SSO, 
                   LETFConfBands07SDS' 
 
-Author:           Sergey Nasekin, Elisabeth Bommes
+Author:           Sergey Nasekin
 
 Submitted:        2016/01/19
 

@@ -1,17 +1,17 @@
-Name of Quantlet: LETFStochLoads
+Name of Quantlet: LETFFactorFuncs
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'to be done'
+Description:      'Compute and plot the estimated factor functions for the SPY ETF option data via the dynamic semiparametric factor                        model. The third order is assumed, so 4 factor functions are computed'
 
 Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
                    spline, basis, option, implied-volatility, surface, Newton'
 
-See also:         LETFFactorFuncs, LETFIVTrueMonsc
+See also:         LETFIVSurfPlot, LETFIVTrueMonsc, LETFStochLoads
 
 Author:           Sergey Nasekin
 
-Submitted:        2016/01/19
+Submitted:        2016/01/21
 
 Datafile:         SPYDATA.mat
 
@@ -27,4 +27,4 @@ Input:
 - L: number of factor functions in the model
   		  
 
-Output:           plot of stochastic factor loadings of the SPY LETF option implied volatility surface
+Output:           plot of the estimated factor functions

@@ -3,6 +3,12 @@ rm(list = ls(all = TRUE))
 graphics.off()
 
 #Load libraries
+libraries = c("quantmod")
+lapply(libraries, function(x) if (!(x %in% installed.packages())) {
+    install.packages(x)
+})
+lapply(libraries, library, quietly = TRUE, character.only = TRUE)
+
 library("foreach")
 library("MASS")
 library("quantreg")

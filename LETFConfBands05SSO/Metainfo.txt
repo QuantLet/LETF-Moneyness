@@ -2,7 +2,8 @@ Name of Quantlet: LETFConfBands05SSO
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'Calculate and plot uniform bootstrap confidence bands for the ProShares Ultra S&P500 LETF option implied      			           volatility at the time-to-maturity 0.5 years'
+Description:      'Calculate and plot uniform bootstrap confidence bands for the ProShares Ultra S&P500 LETF option implied 
+                   volatility at the time-to-maturity 0.5 years'
 
 Keywords:         'confidence-bands, bandwidth, robust estimation, kernel, implied-volatility, 
                   uniform, option, leverage effekt'

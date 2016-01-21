@@ -2,12 +2,12 @@
 rm(list = ls(all = TRUE))
 graphics.off()
 
-#Load libraries
-library("foreach")
-library("MASS")
-library("quantreg")
-library("KernSmooth")
-library("doParallel")
+#Load libraries 
+libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel")
+lapply(libraries, function(x) if (!(x %in% installed.packages())) {
+    install.packages(x)
+})
+lapply(libraries, library, quietly = TRUE, character.only = TRUE)
 source("cbands_funcs.r")
 
 ## Parameters

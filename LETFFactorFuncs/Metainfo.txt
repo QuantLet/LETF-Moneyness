@@ -2,8 +2,7 @@ Name of Quantlet: LETFStochLoads
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'Compute and plot the dynamics of stochastic factor loadings of the SPY LETF option implied volatility surface. 
-                   The estimation of the dynamic semiparametric factor model with B-spline basis is performed for this purpose'
+Description:      'to be done'
 
 Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
                    spline, basis, option, implied-volatility, surface, Newton'

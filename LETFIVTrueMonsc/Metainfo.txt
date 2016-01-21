@@ -1,20 +1,20 @@
-Name of Quantlet: LETFIVSurfPlot
+Name of Quantlet: LETFIVTrueMonsc
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'Compute and plot the implied volatility surface for the SPY LETF option computed via the dynamic 
-                   semiparametric factor model with B-spline basis. Also plot the real-data IV ticks for the given day'
+Description:      'Compute and plot the true SSO LETF option and moneyness-scaling predicted IV via the dynamic 
+                   semiparametric factor model with B-spline basis for specific time-to-maturity points'
 
 Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
                    spline, basis, option, implied-volatility, surface, Newton'
 
-See also:         LETFFactorFuncs, LETFIVTrueMonsc, LETFStochLoads
+See also:         LETFFactorFuncs, LETFIVSurfPlot, LETFStochLoads
 
 Author:           Sergey Nasekin
 
 Submitted:        2016/01/21
 
-Datafile:         SPYDATA.mat
+Datafile:         SPYMAT.mat, SSOMAT.mat
 
 Input: 
 - Km: B-spline order in moneyness direction 
@@ -26,6 +26,10 @@ Input:
 - tol: convergence tolerance for the Newton method 
 - maxiter: maximal number of iterations for the Newton method 
 - L: number of factor functions in the model
+- beta1: leverage ratio 
+- c: LETF expense ratio
   		  
 
-Output:           plot of the implied volatility surface and IV ticks
+Output: 
+- Plot 1: true SSO LETF option (red dots) and moneyness-scaling predicted IV for TTM 0.8 years on 20150520  
+- Plot 2: true SSO LETF option (red dots) and moneyness-scaling predicted IV for TTM 0.8 years on 20150521

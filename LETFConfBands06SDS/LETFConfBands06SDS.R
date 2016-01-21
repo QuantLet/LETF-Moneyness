@@ -61,7 +61,7 @@ fl  = vector(length = gridn, mode = "numeric")
 fll = vector(length = gridn, mode = "numeric")
 
 for (k in 1: gridn){
-  # Conditional pdf f(e|x)at gridpoints
+    # Conditional pdf f(e|x)at gridpoints
     nom   = sum((kernelq((x - yhat.grid.h$xx[k]) / (hg)) *
                  yhat.grid.h$psi1((y - yhat.grid.h$fv[k]), deriv = 1)))
     denom = sum(kernelq((x - yhat.grid.h$xx[k])/(hg)))

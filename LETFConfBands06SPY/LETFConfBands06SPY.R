@@ -2,12 +2,12 @@
 rm(list = ls(all = TRUE))
 graphics.off()
 
-#Load libraries
-library("foreach")
-library("MASS")
-library("quantreg")
-library("KernSmooth")
-library("doParallel")
+#Load libraries 
+libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel")
+lapply(libraries, function(x) if (!(x %in% installed.packages())) {
+    install.packages(x)
+})
+lapply(libraries, library, quietly = TRUE, character.only = TRUE)
 source("cbands_funcs.r")
 
 ## Parameters
@@ -27,9 +27,8 @@ hg = 0.15
 g  = n^(-1/9)
 
 # Sort input data
-y          = y[order(x)]
-x          = x[order(x)]
-ScMonSPY   = ScMonSPY[order(ScMonSPY)]
+y  = y[order(x)]
+x  = x[order(x)]
 
 # Scale x to [0, 1]
 xmin = min(x)
@@ -55,23 +54,22 @@ fl  = vector(length = gridn, mode = "numeric")
 fll = vector(length = gridn, mode = "numeric")
 
 for (k in 1: gridn){
-  # Conditional pdf f(e|x)at gridpoints
-  nom   = sum((kernelq((x - yhat.grid.h$xx[k]) / (hg)) *
+    # Conditional pdf f(e|x)at gridpoints
+    nom   = sum((kernelq((x - yhat.grid.h$xx[k]) / (hg)) *
                  yhat.grid.h$psi1((y - yhat.grid.h$fv[k]), deriv = 1)))
-  denom = sum(kernelq((x - yhat.grid.h$xx[k])/(hg)))
-  fl[k] = nom / denom
+    denom = sum(kernelq((x - yhat.grid.h$xx[k])/(hg)))
+    fl[k] = nom / denom
   
-  # Conditional E(psi^2(e))
-  nom    = sum((kernelq((x - yhat.grid.h$xx[k])/(h)) *
+    # Conditional E(psi^2(e))
+    nom    = sum((kernelq((x - yhat.grid.h$xx[k])/(h)) *
                   yhat.grid.h$psi1((y - yhat.grid.h$fv[k]), deriv = 0)^2))
-  denom  = sum(kernelq((x -  yhat.grid.h$xx[k])/(hg)))
-  fll[k] = nom / denom
+    denom  = sum(kernelq((x -  yhat.grid.h$xx[k])/(hg)))
+    fll[k] = nom / denom
 }
 
 bandt = (fxd$y)^(1/2) * abs(fl / sqrt(fll))
 
 # Bootstrap
-
 pack = c("MASS", "KernSmooth", "Rlab", "quantreg")
 cl   = makeCluster(cl)
 registerDoParallel(cl)
@@ -79,10 +77,10 @@ registerDoParallel(cl)
 d    = vector(length = B, mode = "numeric")
 
 d = foreach(i = 1:B, .packages = pack)%dopar%{
-  estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
-  ystar   = yhat.grid.g$fv + estar$fv
-  fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
-  d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))
+    estar   = lprq3( yhat.h$xx, (y - yhat.h$fv), h = hg, x0 = yhat.grid.h$xx )
+    ystar   = yhat.grid.g$fv + estar$fv
+    fitstar = lnrob(yhat.grid.h$xx, ystar, h = h, maxiter = 50, x0 = yhat.grid.h$xx )
+    d.m     = max(abs(bandt*abs(fitstar$fv - yhat.grid.g$fv)))
 }
 
 stopCluster(cl)

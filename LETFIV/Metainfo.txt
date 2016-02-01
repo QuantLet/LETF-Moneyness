@@ -1,0 +1,17 @@
+Name of Quantlet: LETFIV
+
+Published in:     Leveraged ETF options implied volatility paradox
+
+Description:      'Plot the implied volatilities for 4 leveraged ETFs versus the unleveraged SPY ETF implied volatility before moneyness scaling'
+
+Keywords:         'implied-volatility, option, european-option, moneyness, scaling, maturity'
+
+See also:         LETFIVMonSc
+
+Author:           Sergey Nasekin
+
+Submitted:        2016/02/01
+
+Datafile:         ivplotdata.mat
+
+Example:          plot of the implied volatilities for LETFs

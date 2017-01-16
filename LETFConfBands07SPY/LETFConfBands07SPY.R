@@ -3,7 +3,7 @@ rm(list = ls(all = TRUE))
 graphics.off()
 
 #Load libraries 
-libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel")
+libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel","plyr","ggplot2")
 lapply(libraries, function(x) if (!(x %in% installed.packages())) {
     install.packages(x)
 })
@@ -21,6 +21,15 @@ monivdataSPY  = read.table('mivttmdata_07_SPY.csv',sep=',')
 x             = as.matrix(monivdataSPY[,1])
 y             = as.matrix(monivdataSPY[,2])
 
+#Clean the data
+moniv           <- data.frame(cbind(x,y))
+colnames(moniv) <- c('mon','iv')
+freqs           <- count(moniv,vars = 'iv') # 'plyr' library needed
+freqs           <- freqs[order(-freqs$freq),]
+good_ivs        <- freqs$iv[freqs$freq < 9 & freqs$freq != 8 & freqs$freq != 7 & freqs$freq != 5]
+x               <- as.matrix(moniv$mon[(moniv$iv %in% good_ivs) == TRUE])
+y               <- as.matrix(moniv$iv[(moniv$iv %in% good_ivs) == TRUE])
+
 #Choose bandwidths
 n  = nrow(x)
 hg = 0.15
@@ -37,13 +46,13 @@ x    = (x - xmin) / (xmax - xmin)
 h    = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
 
 # Initial fit
-yhat.h = lnrob(x, y, h = h, maxiter = 100, x0 = x)
-yhat.g = lnrob(x, y, h = g, maxiter = 100, x0 = x)
+yhat.h = lnrob(x, y, h = h, maxiter = 1000, x0 = x)
+yhat.g = lnrob(x, y, h = g, maxiter = 1000, x0 = x)
 ehat   = y - yhat.h$fv
 ehh    = median(abs(ehat-median(ehat)))/0.6745*(4/3/n)^0.2
 
-yhat.grid.h = lnrob(x, y, h = h, maxiter = 100, x0 = seq(0, 1, length.out = gridn))
-yhat.grid.g = lnrob(x, y, h = g, maxiter = 100, x0 = seq(0, 1, length.out = gridn))
+yhat.grid.h = lnrob(x, y, h = h, maxiter = 1000, x0 = seq(0, 1, length.out = gridn))
+yhat.grid.g = lnrob(x, y, h = g, maxiter = 1000, x0 = seq(0, 1, length.out = gridn))
 
 
 # Empirical pdf of x at gridpoints
@@ -101,9 +110,23 @@ band   = (n * h)^(- 1/2) * bandt^{-1} * (dd + cn * (2 * delta * log(n))^(-1/2)) 
 x      = ( x              * (xmax - xmin) ) + xmin
 x.grid = ( yhat.grid.h$xx * (xmax - xmin) ) + xmin
 
-plot(x, y, xlab = "Moneyness", ylab = "Implied volatility", main = "SPY")
-lines(x.grid, yhat.grid.h$fv, lwd = 4, col = "blue")
-lines(x.grid, (yhat.grid.h$fv - dstar), col = "red",   lty = 2, lwd = 4)
-lines(x.grid, (yhat.grid.h$fv + dstar), col = "red",   lty = 2, lwd = 4)
+# plot(x, y, xlab = "Moneyness", ylab = "Implied volatility", main = "SPY")
+# lines(x.grid, yhat.grid.h$fv, lwd = 4, col = "blue")
+# lines(x.grid, (yhat.grid.h$fv - dstar), col = "red",   lty = 1, lwd = 4)
+# lines(x.grid, (yhat.grid.h$fv + dstar), col = "red",   lty = 1, lwd = 4)
+
+#Create a "beautiful" plot with ggplot2
+xyframe            <- data.frame(cbind(x,y))
+colnames(xyframe)  <- c('moneyness','impvol')
+letfframe          <- data.frame(cbind(x.grid,yhat.grid.h$fv,yhat.grid.h$fv - dstar,yhat.grid.h$fv + dstar))
+colnames(letfframe) <- c('mgrid','ivest','lowbnd','upbnd')
+
+beauplot <- ggplot() + geom_point(data = xyframe, aes(x = moneyness, y = impvol),size=1.5,colour="#666666") + 
+  geom_line(data = letfframe, aes(x = mgrid, y = ivest),colour="#000099",size=1.5) +
+  geom_line(data = letfframe, aes(x = mgrid, y = lowbnd),colour="#FF0000",size=1.5) + 
+  geom_line(data = letfframe, aes(x = mgrid, y = upbnd),colour="#FF0000",size=1.5)
+beauplot + ggtitle('SPY')
+
+#write.table(letfframe,file = 'spy_cleaned07.csv',sep=',')
 
 

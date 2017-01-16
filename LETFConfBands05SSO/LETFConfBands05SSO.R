@@ -3,7 +3,7 @@ rm(list = ls(all = TRUE))
 graphics.off()
 
 #Load libraries 
-libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel")
+libraries = c("foreach","MASS","quantreg","KernSmooth","doParallel","plyr","ggplot2")
 lapply(libraries, function(x) if (!(x %in% installed.packages())) {
     install.packages(x)
 })
@@ -20,10 +20,30 @@ beta     = 2 #change here the beta for the LETF in question
 # Load data and apply moneyness scaling
 monivdataLETF = read.table('mivttmdata_05_SSO.csv',sep=',')
 monivdataSPY  = read.table('mivttmdata_05_SPY.csv',sep=',')
-etfvol        = as.matrix(monivdataSPY[,2])
-x             = as.matrix(monivdataLETF[,1])
-y             = as.matrix(monivdataLETF[,2])/abs(beta)
+
+#Clean the data
+xspy            = as.matrix(monivdataSPY[,1])
+yspy            = as.matrix(monivdataSPY[,2])
+moniv           = data.frame(cbind(xspy,yspy))
+colnames(moniv) = c('mon','iv')
+freqs           = count(moniv,vars = 'iv') # 'plyr' library needed
+freqs           = freqs[order(-freqs$freq),]
+good_ivs        = freqs$iv[freqs$freq < 12]
+yspy            = as.matrix(moniv$iv[(moniv$iv %in% good_ivs) == TRUE])
+etfvol          = as.matrix(yspy)
+x               = as.matrix(monivdataLETF[,1])
+y               = as.matrix(monivdataLETF[,2])
+moniv           = data.frame(cbind(x,y))
+colnames(moniv) = c('mon','iv')
+freqs           = count(moniv,vars = 'iv') # 'plyr' library needed
+freqs           = freqs[order(-freqs$freq),]
+good_ivs        = freqs$iv[freqs$freq < 3]
+x               = as.matrix(moniv$mon[(moniv$iv %in% good_ivs) == TRUE])
+y               = as.matrix(moniv$iv[(moniv$iv %in% good_ivs) == TRUE])/abs(beta)
+
+
 ttm           = as.matrix(monivdataLETF[,3])
+ttm           = as.matrix(ttm[(moniv$iv %in% good_ivs) == TRUE])
 ScMonKf       = (x/exp(-0.5*beta*(beta-1)*(mean(etfvol)^2)*ttm))^(1/beta)
 x             = ScMonKf
 
@@ -43,13 +63,13 @@ x    = (x - xmin) / (xmax - xmin)
 h    = median(abs(x-median(x)))/0.6745*(4/3/n)^0.2
 
 # Initial fit
-yhat.h = lnrob(x, y, h = h, maxiter = 100, x0 = x)
-yhat.g = lnrob(x, y, h = g, maxiter = 100, x0 = x)
+yhat.h = lnrob(x, y, h = h, maxiter = 1000, x0 = x)
+yhat.g = lnrob(x, y, h = g, maxiter = 1000, x0 = x)
 ehat   = y - yhat.h$fv
 ehh    = median(abs(ehat-median(ehat)))/0.6745*(4/3/n)^0.2
 
-yhat.grid.h = lnrob(x, y, h = h, maxiter = 100, x0 = seq(0, 1, length.out = gridn))
-yhat.grid.g = lnrob(x, y, h = g, maxiter = 100, x0 = seq(0, 1, length.out = gridn))
+yhat.grid.h = lnrob(x, y, h = h, maxiter = 1000, x0 = seq(0, 1, length.out = gridn))
+yhat.grid.g = lnrob(x, y, h = g, maxiter = 1000, x0 = seq(0, 1, length.out = gridn))
 
 
 # Empirical pdf of x at gridpoints
@@ -107,9 +127,21 @@ band   = (n * h)^(- 1/2) * bandt^{-1} * (dd + cn * (2 * delta * log(n))^(-1/2)) 
 x      = ( x              * (xmax - xmin) ) + xmin
 x.grid = ( yhat.grid.h$xx * (xmax - xmin) ) + xmin
 
-plot(x, y, xlab = "Moneyness", ylab = "Implied volatility", main = "SSO")
-lines(x.grid, yhat.grid.h$fv, lwd = 4, col = "blue")
-lines(x.grid, (yhat.grid.h$fv - dstar), col = "red",   lty = 2, lwd = 4)
-lines(x.grid, (yhat.grid.h$fv + dstar), col = "red",   lty = 2, lwd = 4)
+# plot(x, y, xlab = "Moneyness", ylab = "Implied volatility", main = "SSO")
+# lines(x.grid, yhat.grid.h$fv, lwd = 4, col = "blue")
+# lines(x.grid, (yhat.grid.h$fv - dstar), col = "red",   lty = 2, lwd = 4)
+# lines(x.grid, (yhat.grid.h$fv + dstar), col = "red",   lty = 2, lwd = 4)
+
+#Create a "beautiful" plot with ggplot2
+xyframe            = data.frame(cbind(x,y))
+colnames(xyframe)  = c('moneyness','impvol')
+ssoframe           = data.frame(cbind(x.grid,yhat.grid.h$fv,yhat.grid.h$fv - dstar,yhat.grid.h$fv + dstar))
+colnames(ssoframe) = c('mgrid','ivest','lowbnd','upbnd')
+
+beauplot = ggplot() + geom_point(data = xyframe, aes(x = moneyness, y = impvol),size=1.5,colour="#666666") + 
+  geom_line(data = ssoframe, aes(x = mgrid, y = ivest),colour="#000099",size=1.5) +
+  geom_line(data = ssoframe, aes(x = mgrid, y = lowbnd),colour="#FF0000",size=1.5) + 
+  geom_line(data = ssoframe, aes(x = mgrid, y = upbnd),colour="#FF0000",size=1.5)
+beauplot + ggtitle('SSO')  
 
 

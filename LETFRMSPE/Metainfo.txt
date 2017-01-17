@@ -1,19 +1,19 @@
-Name of Quantlet: LETFStochLoads
+Name of Quantlet: LETFRMSPE
 
 Published in:     Leveraged ETF options implied volatility paradox
 
-Description:      'Compute and plot the dynamics of stochastic factor loadings of the SPY LETF option implied volatility surface as well as the CBOE Volatility Index (VIX) over the period Sep. 2014 - Jul. 2015. The estimation of the dynamic semiparametric factor model with B-spline basis is performed for this purpose'
+Description:      'Computes and plots the root mean squared prediction error of the dynamic one-step-ahead forecast of the implied volatility surface of the SPY LETF call option. The estimation of the dynamic semiparametric factor model with B-spline basis is performed for this purpose'
 
 Keywords:         'DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, 
-                   spline, basis, option, implied-volatility, surface, Newton'
+                   spline, basis, option, implied-volatility, surface, Newton, forecast, average squared error'
 
-See also:         LETFFactorFuncs, LETFRMSPE, LETFIVSurfPlot
+See also:         LETFFactorFuncs, LETFStochLoads, LETFIVSurfPlot
 
 Author:           Sergey Nasekin
 
-Submitted:        2017/01/17
+Submitted:        2017/01/16
 
-Datafile:         'SPYFULL.mat, yrates1415.mat, vix.mat, zetas.mat'
+Datafile:         'SPYFULL.mat, SSOFULL.mat, yrates1415.mat'
 
 Input: 
 - Km: 'B-spline order in moneyness direction'
@@ -28,4 +28,4 @@ Input:
 - lower_mon: lowest moneyness value to keep in the dataset
 - upper_mon: highest moneyness value to keep in the dataset
 
-Output:           plot of stochastic factor loadings of the SPY LETF option implied volatility surface and the VIX index
+Output: 'plot of the root mean squared prediction error for 3 different factor dimensions: L=2,3,4'

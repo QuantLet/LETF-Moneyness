@@ -9,9 +9,9 @@ Name of Quantlet: LETFIVTrueMonsc
 
 Published in: Leveraged ETF options implied volatility paradox
 
-Description: Compute and plot the true SSO LETF option and moneyness-scaling predicted IV via the dynamic
+Description: Compute and plot the true SSO LETF option and moneyness-scaling predicted IV via the dynamic semiparametric factor model with B-spline basis for specific time-to-maturity points
 
-Keywords: DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model,
+Keywords: DSFM, dynamic, semiparametric, semiparametric model, pca, principal-component-analysis, factor, factor-model, spline, basis, option, implied-volatility, surface, Newton
 
 See also: LETFFactorFuncs, LETFIVSurfPlot, LETFStochLoads
 
@@ -22,12 +22,12 @@ Submitted: 2016/01/21
 Datafile: SPYMAT.mat, SSOMAT.mat
 
 Input: 
-- Km: 'B-spline order in moneyness direction
-- Kt: 'B-spline order in time-to-maturity direction
+- Km: 'B-spline order in moneyness direction'
+- Kt: 'B-spline order in time-to-maturity direction'
 - dim_mon: number of grid points for estimation in moneyness direction
 - dim_ttm: number of grid points for estimation in time-to-maturity direction
-- ikmon: 'parameter for setting the number of B-spline knots in moneyness direction
-- ikttm: 'parameter for setting the number of B-spline knots in time-to-maturity direction
+- ikmon: 'parameter for setting the number of B-spline knots in moneyness direction'
+- ikttm: 'parameter for setting the number of B-spline knots in time-to-maturity direction'
 - tol: convergence tolerance for the Newton method
 - maxiter: maximal number of iterations for the Newton method
 - L: number of factor functions in the model

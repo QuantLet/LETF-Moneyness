@@ -9,11 +9,11 @@ Name of Quantlet: LETFConfBands05SDS
 
 Published in: Leveraged ETF options implied volatility paradox
 
-Description: Calculate and plot uniform bootstrap confidence bands for the ProShares UltraShort S&P500 LETF option implied
+Description: Calculate and plot uniform bootstrap confidence bands for the ProShares UltraShort S&P500 LETF option implied volatility at the time-to-maturity 0.5 years
 
-Keywords: confidence-bands, bandwidth, robust estimation, kernel, implied-volatility,
+Keywords: confidence-bands, bandwidth, robust estimation, kernel, implied-volatility, uniform, option, leverage effekt
 
-See also: LETFConfBands05SPY, LETFConfBands05SSO, LETFConfBands05UPRO, LETFConfBands06SPY, LETFConfBands06SSO,
+See also: LETFConfBands05SPY, LETFConfBands05SSO, LETFConfBands05UPRO, LETFConfBands06SPY, LETFConfBands06SSO, LETFConfBands06UPRO, LETFConfBands06SDS, LETFConfBands07UPRO, LETFConfBands07SPY, LETFConfBands07SSO, LETFConfBands07SDS
 
 Author: Sergey Nasekin
 
@@ -23,7 +23,7 @@ Datafile: mivttmdata_05_SDS.csv, mivttmdata_05_SPY.csv
 
 Input: 
 - B: number of bootstrap iterations
-- alpha: '1-confidence level of the bands
+- alpha: '1-confidence level of the bands'
 - gridn: number of grid points for estimation
 - beta:  leverage ratio of the LETF
 
